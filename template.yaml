@@ -55,14 +55,30 @@ Resources:
     Properties:
       TableName: !Sub "${Stage}Course"
       AttributeDefinitions:
+        - AttributeName: courseId
+          AttributeType: S
         - AttributeName: topicCode
           AttributeType: S
+        - AttributeName: title
+          AttributeType: S
       KeySchema:
-        - AttributeName: topicCode
+        - AttributeName: courseId
           KeyType: HASH
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
+      GlobalSecondaryIndexes:
+        - IndexName: topicGSI
+          KeySchema:
+            - AttributeName: topicCode
+              KeyType: HASH
+            - AttributeName: title
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+          ProvisionedThroughput:
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
 
   # Setup Lambda Functions
 

@@ -14,5 +14,5 @@ public interface CourseService {
 
     List<Course> findAll();
 
-    Course findBy(String code);
+    List<Course> findAllByTopicCode(String code);
 }
