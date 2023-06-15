@@ -34,7 +34,6 @@ public class CourseServiceImpl implements CourseService {
                 .build();
 
         course.setAddedOn(createCommand.getExecOn());
-        course.setUpdatedOn(createCommand.getExecOn());
         course.setAddedBy(createCommand.getExecBy().getUserId());
 
         courseDynamoRepository.save(course);
@@ -43,9 +42,9 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void update(UpdateCommand updateCommand) {
 
-        log.info(String.format("Entering update course service - Topic Code:%s", updateCommand.getTopicCode()));
+        log.info(String.format("Entering update course service - Course ID:%s", updateCommand.getCourseId()));
 
-        Course course = courseDynamoRepository.findBy(updateCommand.getTopicCode());
+        Course course = courseDynamoRepository.findBy(updateCommand.getCourseId());
         if (course != null) {
             course.setTitle(updateCommand.getTitle());
             course.setTopicCode(updateCommand.getTopicCode());
@@ -53,6 +52,7 @@ public class CourseServiceImpl implements CourseService {
             course.setPublisher(updateCommand.getPublisher());
             course.setDuration(updateCommand.getDuration());
             course.setCourseUrl(updateCommand.getCourseUrl());
+            course.setUpdatedOn(updateCommand.getExecOn());
             course.setUpdatedBy(updateCommand.getExecBy().getUserId());
             courseDynamoRepository.save(course);
         }
@@ -82,11 +82,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Course findBy(String topicCode) {
+    public List<Course> findAllByTopicCode(String topicCode) {
 
-        log.info(String.format("Entering findBy Course service - Topic code:%s", topicCode));
+        log.info(String.format("Entering findAllByTopicCode Course service - Topic code:%s", topicCode));
 
-        return courseDynamoRepository.findBy(topicCode);
+        return courseDynamoRepository.findAllByTopicCode(topicCode);
     }
 
 

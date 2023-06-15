@@ -11,7 +11,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @NoArgsConstructor
 public class UpdateInput {
-    private String code;
+    private String courseId;
     private String topicCode;
     private String title;
     private String author;
