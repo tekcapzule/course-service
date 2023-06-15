@@ -22,7 +22,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void create(CreateCommand createCommand) {
 
-        log.info(String.format("Entering create course service - Topic Code :%s", createCommand.getTopicCode()));
+        log.info(String.format("Entering create course service - Module Code :%s", createCommand.getTopicCode()));
 
         Course course = Course.builder()
                 .title(createCommand.getTitle())
@@ -61,10 +61,10 @@ public class CourseServiceImpl implements CourseService {
    /* @Override
     public void disable(DisableCommand disableCommand) {
 
-        log.info(String.format("Entering disable topic service - Topic Code:%s", disableCommand.getCode()));
+        log.info(String.format("Entering disable topic service - Module Code:%s", disableCommand.getCode()));
 
         courseDynamoRepository.findBy(disableCommand.getCode());
-        Topic topic = courseDynamoRepository.findBy(disableCommand.getCode());
+        Module topic = courseDynamoRepository.findBy(disableCommand.getCode());
         if (topic != null) {
             topic.setStatus("INACTIVE");
             topic.setUpdatedOn(disableCommand.getExecOn());
@@ -84,7 +84,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Course> findAllByTopicCode(String topicCode) {
 
-        log.info(String.format("Entering findAllByTopicCode Course service - Topic code:%s", topicCode));
+        log.info(String.format("Entering findAllByTopicCode Course service - Module code:%s", topicCode));
 
         return courseDynamoRepository.findAllByTopicCode(topicCode);
     }
