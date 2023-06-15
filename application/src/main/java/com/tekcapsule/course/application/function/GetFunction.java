@@ -12,13 +12,15 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.support.GenericMessage;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
 @Component
 @Slf4j
-public class GetFunction implements Function<Message<GetInput>, Message<Course>> {
+public class GetFunction implements Function<Message<GetInput>, Message<List<Course>>> {
 
     private final CourseService courseService;
 
@@ -31,20 +33,19 @@ public class GetFunction implements Function<Message<GetInput>, Message<Course>>
 
 
     @Override
-    public Message<Course> apply(Message<GetInput> getInputMessage) {
+    public Message<List<Course>> apply(Message<GetInput> getInputMessage) {
 
         Map<String, Object> responseHeaders = new HashMap<>();
-        Course course = new Course();
+        List<Course> courses = new ArrayList<>();
 
         String stage = appConfig.getStage().toUpperCase();
 
         try {
             GetInput getInput = getInputMessage.getPayload();
             log.info(String.format("Entering get course Function -Topic Code:%s", getInput.getTopicCode()));
-            course = courseService.findBy(getInput.getTopicCode());
-            if (course == null) {
+            courses = courseService.findAllByTopicCode(getInput.getTopicCode());
+            if (courses.isEmpty()) {
                 responseHeaders = HeaderUtil.populateResponseHeaders(responseHeaders, Stage.valueOf(stage), Outcome.NOT_FOUND);
-                course = Course.builder().build();
             } else {
                 responseHeaders = HeaderUtil.populateResponseHeaders(responseHeaders, Stage.valueOf(stage), Outcome.SUCCESS);
             }
@@ -52,6 +53,6 @@ public class GetFunction implements Function<Message<GetInput>, Message<Course>>
             log.error(ex.getMessage());
             responseHeaders = HeaderUtil.populateResponseHeaders(responseHeaders, Stage.valueOf(stage), Outcome.ERROR);
         }
-        return new GenericMessage<>(course, responseHeaders);
+        return new GenericMessage<>(courses, responseHeaders);
     }
 }
