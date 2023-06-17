@@ -17,6 +17,7 @@ import java.util.List;
 public class CourseRepositoryImpl implements CourseDynamoRepository {
 
     private DynamoDBMapper dynamo;
+    public static final String ACTIVE_STATUS = "ACTIVE";
 
     @Autowired
     public CourseRepositoryImpl(DynamoDBMapper dynamo) {
@@ -33,14 +34,17 @@ public class CourseRepositoryImpl implements CourseDynamoRepository {
     public List<Course> findAllByTopicCode(String topicCode) {
 
         HashMap<String, AttributeValue> expAttributes = new HashMap<>();
+        expAttributes.put(":status", new AttributeValue().withS(ACTIVE_STATUS));
         expAttributes.put(":topicCode", new AttributeValue().withS(topicCode));
 
         HashMap<String, String> expNames = new HashMap<>();
+        expNames.put("#status", "status");
         expNames.put("#topicCode", "topicCode");
+
 
         DynamoDBQueryExpression<Course> queryExpression = new DynamoDBQueryExpression<Course>()
                 .withIndexName("topicGSI").withConsistentRead(false)
-                .withKeyConditionExpression("#topicCode = :topicCode")
+                .withKeyConditionExpression("#status = :status and #topicCode = :topicCode")
                 .withExpressionAttributeValues(expAttributes)
                 .withExpressionAttributeNames(expNames);
 
