@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.tekcapsule</groupId>
     <artifactId>course-domain</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>Course Domain</name>
     <description>Course Domain</description>
     <properties>

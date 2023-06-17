@@ -3,6 +3,7 @@ package com.tekcapsule.course.domain.service;
 import com.tekcapsule.course.domain.command.CreateCommand;
 import com.tekcapsule.course.domain.command.UpdateCommand;
 import com.tekcapsule.course.domain.model.Course;
+import com.tekcapsule.course.domain.model.Status;
 import com.tekcapsule.course.domain.repository.CourseDynamoRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,14 @@ public class CourseServiceImpl implements CourseService {
                 .publisher(createCommand.getPublisher())
                 .duration(createCommand.getDuration())
                 .courseUrl(createCommand.getCourseUrl())
+                .summary(createCommand.getSummary())
+                .description(createCommand.getDescription())
+                .modules(createCommand.getModules())
+                .prizingModel(createCommand.getPrizingModel())
+                .deliveryMode(createCommand.getDeliveryMode())
+                .learningMode(createCommand.getLearningMode())
+                .imageUrl(createCommand.getImageUrl())
+                .status(Status.ACTIVE)
                 .build();
 
         course.setAddedOn(createCommand.getExecOn());
@@ -52,6 +61,13 @@ public class CourseServiceImpl implements CourseService {
             course.setPublisher(updateCommand.getPublisher());
             course.setDuration(updateCommand.getDuration());
             course.setCourseUrl(updateCommand.getCourseUrl());
+            course.setSummary(updateCommand.getSummary());
+            course.setDescription(updateCommand.getDescription());
+            course.setModules(updateCommand.getModules());
+            course.setPrizingModel(updateCommand.getPrizingModel());
+            course.setDeliveryMode(updateCommand.getDeliveryMode());
+            course.setLearningMode(updateCommand.getLearningMode());
+            course.setImageUrl(updateCommand.getImageUrl());
             course.setUpdatedOn(updateCommand.getExecOn());
             course.setUpdatedBy(updateCommand.getExecBy().getUserId());
             courseDynamoRepository.save(course);
