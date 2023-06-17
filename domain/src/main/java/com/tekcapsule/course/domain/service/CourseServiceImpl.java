@@ -39,6 +39,7 @@ public class CourseServiceImpl implements CourseService {
                 .deliveryMode(createCommand.getDeliveryMode())
                 .learningMode(createCommand.getLearningMode())
                 .imageUrl(createCommand.getImageUrl())
+                .promotion(createCommand.getPromotion())
                 .status(Status.ACTIVE)
                 .build();
 
@@ -67,6 +68,7 @@ public class CourseServiceImpl implements CourseService {
             course.setPrizingModel(updateCommand.getPrizingModel());
             course.setDeliveryMode(updateCommand.getDeliveryMode());
             course.setLearningMode(updateCommand.getLearningMode());
+            course.setPromotion(updateCommand.getPromotion());
             course.setImageUrl(updateCommand.getImageUrl());
             course.setUpdatedOn(updateCommand.getExecOn());
             course.setUpdatedBy(updateCommand.getExecBy().getUserId());
