@@ -61,6 +61,8 @@ Resources:
           AttributeType: S
         - AttributeName: status
           AttributeType: S
+        - AttributeName: recommendations
+          AttributeType: N
       KeySchema:
         - AttributeName: courseId
           KeyType: HASH
@@ -73,6 +75,18 @@ Resources:
             - AttributeName: status
               KeyType: HASH
             - AttributeName: topicCode
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+          ProvisionedThroughput:
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
+
+        - IndexName: trendingGSI
+          KeySchema:
+            - AttributeName: status
+              KeyType: HASH
+            - AttributeName: recommendations
               KeyType: RANGE
           Projection:
             ProjectionType: ALL
@@ -165,6 +179,28 @@ Resources:
             Method: post
             RestApiId:
               Ref: CourseApi
+
+  RecommendCourseFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub "${Stage}-Course-RecommendCourse"
+      SnapStart:
+        ApplyOn: PublishedVersions
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref CourseTable
+      Environment:
+        Variables:
+          SPRING_CLOUD_FUNCTION_DEFINITION: recommendFunction
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: course/recommend
+            Method: post
+            RestApiId:
+              Ref: CourseApi
+
 
   # Set Output Variable
 
