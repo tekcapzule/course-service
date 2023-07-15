@@ -1,6 +1,7 @@
 package com.tekcapsule.course.domain.service;
 
 import com.tekcapsule.course.domain.command.CreateCommand;
+import com.tekcapsule.course.domain.command.RecommendCommand;
 import com.tekcapsule.course.domain.command.UpdateCommand;
 import com.tekcapsule.course.domain.model.Course;
 import com.tekcapsule.course.domain.model.Status;
@@ -72,6 +73,23 @@ public class CourseServiceImpl implements CourseService {
             course.setImageUrl(updateCommand.getImageUrl());
             course.setUpdatedOn(updateCommand.getExecOn());
             course.setUpdatedBy(updateCommand.getExecBy().getUserId());
+            courseDynamoRepository.save(course);
+        }
+    }
+
+    @Override
+    public void recommend(RecommendCommand recommendCommand) {
+        log.info(String.format("Entering recommend course service -  Course Id:%s", recommendCommand.getCourseId()));
+
+        Course course = courseDynamoRepository.findBy(recommendCommand.getCourseId());
+        if (course != null) {
+            Integer recommendationsCount = course.getRecommendations();
+            recommendationsCount += 1;
+            course.setRecommendations(recommendationsCount);
+
+            course.setUpdatedOn(recommendCommand.getExecOn());
+            course.setUpdatedBy(recommendCommand.getExecBy().getUserId());
+
             courseDynamoRepository.save(course);
         }
     }

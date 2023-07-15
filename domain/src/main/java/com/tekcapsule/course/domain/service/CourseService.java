@@ -1,6 +1,7 @@
 package com.tekcapsule.course.domain.service;
 
 import com.tekcapsule.course.domain.command.CreateCommand;
+import com.tekcapsule.course.domain.command.RecommendCommand;
 import com.tekcapsule.course.domain.command.UpdateCommand;
 import com.tekcapsule.course.domain.model.Course;
 import java.util.List;
@@ -15,4 +16,5 @@ public interface CourseService {
     List<Course> findAll();
 
     List<Course> findAllByTopicCode(String code);
+    void recommend(RecommendCommand recommendCommand);
 }
