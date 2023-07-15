@@ -26,5 +26,9 @@ public class UpdateInput {
     private DeliveryMode deliveryMode;
     private LearningMode learningMode;
     private String imageUrl;
+
     private int recommendations;
+
+    private Promotion promotion;
+
 }
