@@ -42,6 +42,7 @@ public class CourseServiceImpl implements CourseService {
                 .imageUrl(createCommand.getImageUrl())
                 .promotion(createCommand.getPromotion())
                 .status(Status.ACTIVE)
+                .recommendations(createCommand.getRecommendations())
                 .build();
 
         course.setAddedOn(createCommand.getExecOn());
@@ -73,6 +74,7 @@ public class CourseServiceImpl implements CourseService {
             course.setImageUrl(updateCommand.getImageUrl());
             course.setUpdatedOn(updateCommand.getExecOn());
             course.setUpdatedBy(updateCommand.getExecBy().getUserId());
+            course.setRecommendations(updateCommand.getRecommendations());
             courseDynamoRepository.save(course);
         }
     }
