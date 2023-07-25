@@ -56,5 +56,9 @@ public class Course extends BaseDomainEntity implements AggregateRoot {
     private Status status;
     @DynamoDBAttribute(attributeName = "recommendations")
     private int recommendations;
+    @DynamoDBAttribute(attributeName = "publishedOn")
+    private String publishedOn;
+
+
 }
 

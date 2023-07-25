@@ -1,5 +1,6 @@
 package com.tekcapsule.course.domain.service;
 
+import com.tekcapsule.course.domain.command.ApproveCommand;
 import com.tekcapsule.course.domain.command.CreateCommand;
 import com.tekcapsule.course.domain.command.RecommendCommand;
 import com.tekcapsule.course.domain.command.UpdateCommand;
@@ -41,8 +42,9 @@ public class CourseServiceImpl implements CourseService {
                 .learningMode(createCommand.getLearningMode())
                 .imageUrl(createCommand.getImageUrl())
                 .promotion(createCommand.getPromotion())
-                .status(Status.ACTIVE)
+                .status(Status.SUBMITTED)
                 .recommendations(createCommand.getRecommendations())
+                .publishedOn(createCommand.getPublishedOn())
                 .build();
 
         course.setAddedOn(createCommand.getExecOn());
@@ -75,6 +77,7 @@ public class CourseServiceImpl implements CourseService {
             course.setUpdatedOn(updateCommand.getExecOn());
             course.setUpdatedBy(updateCommand.getExecBy().getUserId());
             course.setRecommendations(updateCommand.getRecommendations());
+            course.setPublishedOn(updateCommand.getPublishedOn());
             courseDynamoRepository.save(course);
         }
     }
@@ -91,6 +94,21 @@ public class CourseServiceImpl implements CourseService {
 
             course.setUpdatedOn(recommendCommand.getExecOn());
             course.setUpdatedBy(recommendCommand.getExecBy().getUserId());
+
+            courseDynamoRepository.save(course);
+        }
+    }
+
+    @Override
+    public void approve(ApproveCommand approveCommand) {
+        log.info(String.format("Entering approve course service -  course Id:%s", approveCommand.getCourseId()));
+
+        Course course = courseDynamoRepository.findBy(approveCommand.getCourseId());
+        if (course != null) {
+            course.setStatus(Status.ACTIVE);
+
+            course.setUpdatedOn(approveCommand.getExecOn());
+            course.setUpdatedBy(approveCommand.getExecBy().getUserId());
 
             courseDynamoRepository.save(course);
         }

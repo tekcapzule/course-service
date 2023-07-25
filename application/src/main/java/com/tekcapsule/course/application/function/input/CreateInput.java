@@ -25,9 +25,8 @@ public class CreateInput {
     private DeliveryMode deliveryMode;
     private LearningMode learningMode;
     private String imageUrl;
-
     private int recommendations;
-
+    private String publishedOn;
     private Promotion promotion;
 
 }
