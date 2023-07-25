@@ -201,6 +201,26 @@ Resources:
             RestApiId:
               Ref: CourseApi
 
+  ApproveCourseFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub "${Stage}-Course-ApproveCourse"
+      SnapStart:
+        ApplyOn: PublishedVersions
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref CourseTable
+      Environment:
+        Variables:
+          SPRING_CLOUD_FUNCTION_DEFINITION: approveFunction
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: course/approve
+            Method: post
+            RestApiId:
+              Ref: CourseApi
 
   # Set Output Variable
 

@@ -19,6 +19,7 @@ public class UpdateInput {
     private String publisher;
     private String duration;
     private String resourceUrl;
+    private String publishedOn;
     private String summary;
     private String description;
     private List<Module> modules;

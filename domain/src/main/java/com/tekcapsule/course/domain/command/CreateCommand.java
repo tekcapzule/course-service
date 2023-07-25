@@ -30,5 +30,6 @@ public class CreateCommand extends Command {
     private int recommendations;
 
     private Promotion promotion;
+    private String publishedOn;
 
 }

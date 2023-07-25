@@ -1,5 +1,6 @@
 package com.tekcapsule.course.domain.service;
 
+import com.tekcapsule.course.domain.command.ApproveCommand;
 import com.tekcapsule.course.domain.command.CreateCommand;
 import com.tekcapsule.course.domain.command.RecommendCommand;
 import com.tekcapsule.course.domain.command.UpdateCommand;
@@ -17,4 +18,5 @@ public interface CourseService {
 
     List<Course> findAllByTopicCode(String code);
     void recommend(RecommendCommand recommendCommand);
+    void approve(ApproveCommand approveCommand);
 }
